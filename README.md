@@ -18,6 +18,14 @@ cargo build --release --locked
 
 默认访问 `http://127.0.0.1:3000`。部署时需保留 `frontend/dist`。
 
+使用 Nix 构建并运行（包含前端）：
+
+```sh
+nix build
+./result/bin/rlmonitor
+# 或直接运行：nix run
+```
+
 ## 配置
 
 自动读取启动目录的 `.env`，进程环境变量优先。相对路径以启动目录为基准。
@@ -27,7 +35,7 @@ cargo build --release --locked
 | `REALITYLINK_ADDRESS` | `localhost:39244` | RealityLink 的 `host:port`，不含协议或路径；IPv6 使用 `[::1]:39244` |
 | `LISTEN_ADDR` | `127.0.0.1:3000` | HTTP 监听地址 |
 | `DATABASE_PATH` | `chat_history.db` | SQLite 数据库路径 |
-| `FRONTEND_DIR` | `frontend/dist` | 前端构建产物目录 |
+| `FRONTEND_DIR` | `frontend/dist`；Nix 包使用内置路径 | 覆盖前端构建产物目录 |
 | `SERVER_NAME` | `Minecraft` | 服务器显示名称 |
 | `RETENTION_DAYS` | `3` | 聊天记录保留天数，范围 1–3650；过期记录自动删除 |
 | `RUST_LOG` | `info` | 日志过滤级别 |
@@ -58,4 +66,5 @@ cargo clippy --all-targets --locked -- -D warnings
 pnpm --dir frontend check
 pnpm --dir frontend test
 pnpm --dir frontend build
+nix flake check
 ```

@@ -61,7 +61,11 @@ impl Config {
                 .parse()
                 .context("Invalid LISTEN_ADDR")?,
             database_path: value("DATABASE_PATH", "chat_history.db").into(),
-            frontend_dir: value("FRONTEND_DIR", "frontend/dist").into(),
+            frontend_dir: value(
+                "FRONTEND_DIR",
+                option_env!("RLMONITOR_FRONTEND_DIR").unwrap_or("frontend/dist"),
+            )
+            .into(),
             server_name: value("SERVER_NAME", "Minecraft"),
             retention_days,
             log_filter: value("RUST_LOG", "info"),
